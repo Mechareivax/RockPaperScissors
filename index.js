@@ -2,6 +2,7 @@ let playerScore = 0;
 let computerScore = 0;
 
 const gameButtons = document.querySelectorAll('.option');
+const playAgainButton = document.querySelector('#playAgain');
 const playerScoreElement = document.querySelector('.playerScore');
 const computerScoreElement = document.querySelector('.computerScore');
 const playerChoiceElement = document.querySelector('.playerChoice');
@@ -26,6 +27,8 @@ function checkForGameOver () {
         } else if (computerScore === 5) {
             gameResultElement.textContent = 'YOU LOSE...';
         };
+
+        playAgainButton.style.display = 'block';
      };
 }
 
@@ -59,6 +62,8 @@ function game() {
             checkForGameOver();
         });
     });
+
+    playAgainButton.addEventListener('click', resetGame);
 }
 
 function playRound (playerSelection, computerSelection) {
@@ -127,6 +132,21 @@ function playRound (playerSelection, computerSelection) {
 function refreshScoreDisplay () {
     playerScoreElement.textContent = playerScore;
     computerScoreElement.textContent = computerScore;
+}
+
+function resetGame () {
+    playerScore = 0;
+    computerScore = 0;
+    refreshScoreDisplay();
+    playerChoiceElement.textContent = "";
+    computerChoiceElement.textContent = "";
+    roundResultElement.textContent = "";
+    gameResultElement.textContent = "";
+    playAgainButton.style.display = 'none';
+
+    gameButtons.forEach((button) => {
+        button.removeAttribute('disabled');
+    });
 }
 
 game();
