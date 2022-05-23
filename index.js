@@ -122,10 +122,10 @@ function playRound (playerSelection, computerSelection) {
         return "It's a draw! You both picked " + playerSelection;
     } else if (playerWon) {
         playerScore++;
-        return "You Win! " + playerSelection + " beats " + computerSelection;
+        return "Nice! " + playerSelection + " beats " + computerSelection;
     } else if (!playerWon) {
         computerScore++;
-        return "You Lose... " + computerSelection + " beats " + playerSelection;
+        return "Oh no... " + computerSelection + " beats " + playerSelection;
     }
 }
 
