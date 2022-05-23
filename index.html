@@ -5,10 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="index.js"></script>
+    <script src="index.js" defer></script>
     <title>Rock Paper Scissors</title>
 </head>
 <body>
-    <h1>Hello World!</h1>
+    <h1>Score</h1>
+    <h2><span class="playerScore"></span>(you) - <span class="computerScore"></span></h2>
+    <div>
+        <button id="rock" class="option">Rock</button>
+        <button id="paper" class="option">Paper</button>
+        <button id="scissors" class="option">Scissors</button>
+    </div>
+    <div>
+        <p class="playerChoice"></p>
+        <p class="computerChoice"></p>
+        <p class="roundResult"></p>
+    </div>
+    <h2 class="gameResult"></h2>
+    <button id="playAgain">Play Again</button>
+    <!-- TODO: configure the playAgin button -->
 </body>
 </html>

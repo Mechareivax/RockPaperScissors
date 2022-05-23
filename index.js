@@ -1,9 +1,36 @@
 let playerScore = 0;
 let computerScore = 0;
 
+const gameButtons = document.querySelectorAll('.option');
+const playerScoreElement = document.querySelector('.playerScore');
+const computerScoreElement = document.querySelector('.computerScore');
+const playerChoiceElement = document.querySelector('.playerChoice');
+const computerChoiceElement = document.querySelector('.computerChoice');
+const roundResultElement = document.querySelector('.roundResult');
+const gameResultElement = document.querySelector('.gameResult');
+
+function capitalize (s) {
+    // capitalizes the first letter of a string
+    return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+function checkForGameOver () {
+    // if 5 points have been reached, disables gameButtons and announces winner
+    if (playerScore === 5 || computerScore === 5) {
+        gameButtons.forEach((button) => {
+            button.setAttribute('disabled', '');
+        });
+
+        if (playerScore === 5) {
+            gameResultElement.textContent = 'YOU WIN!!!';
+        } else if (computerScore === 5) {
+            gameResultElement.textContent = 'YOU LOSE...';
+        };
+     };
+}
+
 function computerPlay () {
-    // this function randomly selects between the three options 
-    // for the computer player
+    // randomly selects between the three options for the computer player
 
     const choices = ['Rock', 'Paper', 'Scissors'];
     // choose a number between 0 and 2 for the index
@@ -11,10 +38,32 @@ function computerPlay () {
     return choices[randomSelection];
 }
 
+function game() {
+    // plays a round each time the button is clicked
+    let computerInput = "";
+    let playerInput = "";
+    refreshScoreDisplay();
+
+    // each time a button is clicked, play a round
+    gameButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            computerInput = computerPlay();
+            playerInput = button.id;
+            playerInput = capitalize(playerInput); // the switch statement and formatting for text outputs rely on this being capitalized
+
+            playerChoiceElement.textContent = "You picked " + playerInput;
+            computerChoiceElement.textContent = "They picked " + computerInput;
+            roundResultElement.textContent= playRound(playerInput, computerInput);
+            
+            refreshScoreDisplay();
+            checkForGameOver();
+        });
+    });
+}
+
 function playRound (playerSelection, computerSelection) {
-    // this function takes both selections and compares them to declare a winner.
-    // three if statements will compare each possible computer choice,
-    // against inner switch cases representing player choices
+    // takes both selections and compares them to declare a winner.
+    // it will return one of three strings dependant on the outcome
     let playerWon = false;
     
     if (computerSelection === 'Rock') {
@@ -75,51 +124,9 @@ function playRound (playerSelection, computerSelection) {
     }
 }
 
-function validateInput (input) {
-    // checks player input against an array of accepted answers 
-    const playerChoices = ['rock', 'paper', 'scissors'];
-    return playerChoices.includes(input.toLowerCase());
+function refreshScoreDisplay () {
+    playerScoreElement.textContent = playerScore;
+    computerScoreElement.textContent = computerScore;
 }
 
-function capitalize (s) {
-    // capitalizes the first letter of a string
-    return s.charAt(0).toUpperCase() + s.slice(1);
-}
-
-function game() {
-    // this function will validate player input and play a "best of 3"
-    // while logging the results of each round
-
-    for (i = 0; i < 5; i++) { // play 5 games
-        let computerInput = computerPlay();
-        let playerInput = "";
-
-        while (!validateInput(playerInput)) {
-            playerInput = prompt("Enter Rock, Paper, or Scissors");
-        };
-
-        playerInput = capitalize(playerInput.toLowerCase());
-        console.log("You picked " + playerInput);
-        console.log("They picked " + computerInput);
-        console.log(playRound(playerInput, computerInput));
-        
-        // if either score is 3 before reaching five games, the best 
-        // out of 5 condition is met and the game can end early
-        if (playerScore === 3 || computerScore === 3) {
-            break;
-        }
-    }
-    
-    console.log("Final score: " + playerScore + "(You) - " + computerScore);
-    if (playerScore === computerScore) {
-        console.log("The game has ended in a tie!")
-    } else if (playerScore > computerScore) {
-        console.log("You've won!!!");
-    } else if (playerScore < computerScore) {
-        console.log("You've lost...");
-    }
-}
-
-console.log("This will be a best out of 5!");
-console.log("============================");
 game();
